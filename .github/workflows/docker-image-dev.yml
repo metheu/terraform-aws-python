@@ -25,7 +25,7 @@ jobs:
         docker build . --file Dockerfile --tag $IMAGE_REPO:$BUILD_ID --tag $IMAGE_REPO:$SECONDARY_TAG
 
 
-        docker login --username "${{ secrets.DOCKERHUB_USER }}" --password "${{ secrets.DOCKERHUB_SECRET }}"
+        echo "${{ secrets.DOCKERHUB_SECRET }}" | docker login --username "${{ secrets.DOCKERHUB_USER }}" --password-stdin 
     
         docker push $IMAGE_REPO:$BUILD_ID
-        docker push $IMAGE_REPO:SECONDARY_TAG
+        docker push $IMAGE_REPO:$SECONDARY_TAG
