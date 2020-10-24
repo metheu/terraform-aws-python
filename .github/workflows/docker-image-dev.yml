@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ dev ]
 
+
 jobs:
 
   build:
@@ -14,15 +15,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Build and push Docker image
       run:  | 
         BUILD_ID=$(date +%s)
         SECONDARY_TAG=latest
-        docker build . --file Dockerfile --tag mattb912/python-flask-hello-world:$BUILD_ID --tag mattb912/python-flask-hello-world:$SECONDARY_TAG
-
-    - name: Login and push image
-      run: |
         IMAGE_REPO=mattb912/python-flask-hello-world
+
+
+        docker build . --file Dockerfile --tag $IMAGE_REPO:$BUILD_ID --tag $IMAGE_REPO:$SECONDARY_TAG
+
+
         docker login --username "${{ secrets.DOCKERHUB_USER }}" --password "${{ secrets.DOCKERHUB_SECRET }}"
     
         docker push $IMAGE_REPO:$BUILD_ID
