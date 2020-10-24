@@ -1,0 +1,9 @@
+# terraform folder
+.terraform/
+
+# python virtualenv file
+venv/
+
+# pytest cache
+.pytest_cache
+src/__pycache__/
