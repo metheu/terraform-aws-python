@@ -15,12 +15,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mattb912/python-flask-hello-world:$(date +%s) --tag mattb912/python-flask-hello-world:latest
+      run:  | 
+        BUILD_ID=$(date +%s)
+        SECONDARY_TAG=latest
+        docker build . --file Dockerfile --tag mattb912/python-flask-hello-world:$BUILD_ID --tag mattb912/python-flask-hello-world:$SECONDARY_TAG
 
     - name: Login and push image
       run: |
         IMAGE_REPO=mattb912/python-flask-hello-world
         docker login --username "${{ secrets.DOCKERHUB_USER }}" --password "${{ secrets.DOCKERHUB_SECRET }}"
     
-        docker push $IMAGE_REPO:$(date +%s)
-        docker push $IMAGE_REPO:latest
+        docker push $IMAGE_REPO:$BUILD_ID
+        docker push $IMAGE_REPO:SECONDARY_TAG
