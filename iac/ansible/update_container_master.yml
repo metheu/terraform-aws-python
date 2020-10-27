@@ -1,0 +1,15 @@
+- name: Update running containers
+  hosts: docker_host_group
+  vars:
+      ansible_ssh_private_key_file: <key path goes here>
+  
+  tasks:
+    - name: Update dev containers
+      become: yes
+      community.general.docker_container:
+        name: flask-hello-world-master
+        image: mattb912/python-flask-hello-world:master
+        state: started
+        recreate: yes
+        published_ports: 80:5000
+        restart_policy: unless-stopped
