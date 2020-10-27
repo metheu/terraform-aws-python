@@ -1,0 +1,25 @@
+
+# tasks file for docker_install
+- include_tasks: prep-sys.yml
+
+- name: "Install docker ce version"
+  become: yes
+  yum:
+    name: docker
+    state: present
+  notify: restart_docker
+
+- name: Ensure Docker is enabled at boot
+  become: yes
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Ensure docker user are added to docker group
+  become: yes
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: true
+  with_items: "{{ docker_users }}"

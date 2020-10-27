@@ -1,0 +1,4 @@
+---
+# defaults file for docker_install
+# List if users to be added to docker group
+docker_users: ["ec2-user"]

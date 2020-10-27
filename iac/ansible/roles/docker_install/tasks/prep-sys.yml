@@ -1,0 +1,46 @@
+---
+# tasks file for docker_install
+- name: Install the 'Development tools' package group
+  become: yes
+  yum:
+    name: 
+       - autoconf
+       - automake
+       - binutils
+       - bison
+       - flex
+       - gcc 
+       - gcc-c++ 
+       - gettext
+       - libtool
+       - make
+       - patch
+       - pkgconfig
+       - redhat-rpm-config
+       - rpm-build
+       - rpm-sign
+    state: present
+
+- name: Ensure specfic python & headers >=2.7 installed
+  become: yes
+  yum:
+    name: 
+    - python2
+    - python-devel
+    state: present
+
+- name: python-setup tools, python2-pip installed
+  become: yes
+  yum:
+    name: 
+    - python-setuptools
+    - python27-pip
+    state: present
+
+- name: Install docker through pip so ansible can manage it
+  become: yes
+  pip:
+    name: 
+    - docker
+    - setuptools
+    state: present
