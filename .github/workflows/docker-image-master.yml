@@ -29,3 +29,18 @@ jobs:
     
         docker push $IMAGE_REPO:$BUILD_ID
         docker push $IMAGE_REPO:$SECONDARY_TAG
+
+    - name: Run Ansible playbook
+      uses: dawidd6/action-ansible-playbook@v2.1.2
+      with:
+        playbook: update_container_master.yml
+        directory: ./iac/ansible
+        key: ${{secrets.KEY_PAIR}}
+        inventory: |
+          [docker_host_group]
+          ${{secrets.HOST_ONE}}
+          ${{secrets.HOST_TWO}}
+
+          [docker_host_group:vars]
+          ansible_user=${{secrets.SSH_USER}}
+          ansible_ssh_common_args='-o ServerAliveInterval=50 -o ProxyCommand="ssh -W %h:%p -q -i ${{secrets.KEY_PAIR}} ${{secrets.SSH_USER}}@${{secrets.PROXY_ADDRESS}}"'
