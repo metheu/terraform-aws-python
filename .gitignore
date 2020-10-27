@@ -7,3 +7,14 @@ venv/
 # pytest cache
 .pytest_cache/
 src/__pycache__/
+
+# all iac dir
+iac/.keys/
+iac/terraform/.terraform
+iac/terraform/*.tfstate
+iac/ansible/venv/
+iac/ansible/hosts.ini
+
+
+.vscode/
+
